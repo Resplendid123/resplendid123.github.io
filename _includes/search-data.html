@@ -1,0 +1,13 @@
+<script type="application/json" id="search-data">
+  [
+    {% for post in site.posts %}
+      {
+        "title": {{ post.title | jsonify }},
+        "url": {{ post.url | relative_url | jsonify }},
+        "categories": {{ post.categories | join: ', ' | jsonify }},
+        "tags": {{ post.tags | join: ', ' | jsonify }},
+        "snippet": {{ post.description | default: post.excerpt | strip_html | strip_newlines | jsonify }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+</script>

@@ -1,0 +1,24 @@
+<aside id="panel-wrapper" aria-label="Panel">
+  {% if page.toc %}
+    <div id="toc-wrapper">
+      <h2 class="panel-heading">Contents</h2>
+      <ul>
+        {% for item in page.toc %}
+          <li><a class="toc-link" href="#{{ item.id }}">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <div class="access">
+      <section id="access-lastmod">
+        <h2 class="panel-heading">Recently Updated</h2>
+        <ul class="content-list">
+          {% for post in site.posts limit:5 %}
+            <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% include trending-tags.html %}
+    </div>
+  {% endif %}
+</aside>

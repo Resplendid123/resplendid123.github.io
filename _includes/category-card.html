@@ -1,0 +1,72 @@
+{% assign category_name = include.category[0] %}
+{% assign category_posts = include.category[1] %}
+{% assign child_category_count = 0 %}
+{% assign direct_post_count = 0 %}
+
+{% capture child_rows %}
+  {% assign tag_groups = site.tags | sort %}
+  {% for tag in tag_groups %}
+    {% assign child_posts_count = 0 %}
+    {% for post in category_posts %}
+      {% assign first_child_tag = '' %}
+      {% for post_tag in post.tags %}
+        {% if post_tag != category_name and first_child_tag == '' %}
+          {% assign first_child_tag = post_tag %}
+        {% endif %}
+      {% endfor %}
+      {% if first_child_tag == tag[0] %}
+        {% assign child_posts_count = child_posts_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+    {% if child_posts_count > 0 %}
+      {% assign child_category_count = child_category_count | plus: 1 %}
+      <li class="list-group-item category-child">
+        <i class="far fa-folder fa-fw" aria-hidden="true"></i>
+        <a href="{{ '/categories/' | append: tag[0] | append: '/' | relative_url }}">{{ tag[0] }}</a>
+        <span class="text-muted small">{{ child_posts_count }} {% if child_posts_count == 1 %}post{% else %}posts{% endif %}</span>
+      </li>
+    {% endif %}
+  {% endfor %}
+
+  {% for post in category_posts %}
+    {% assign first_child_tag = '' %}
+    {% for post_tag in post.tags %}
+      {% if post_tag != category_name and first_child_tag == '' %}
+        {% assign first_child_tag = post_tag %}
+      {% endif %}
+    {% endfor %}
+    {% if first_child_tag == '' %}
+      {% assign direct_post_count = direct_post_count | plus: 1 %}
+      <li class="list-group-item post-child">
+        <i class="far fa-file-alt fa-fw" aria-hidden="true"></i>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="text-muted small">{{ post.date | date: '%b %-d, %Y' }}</span>
+      </li>
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+
+{% assign child_count = child_category_count | plus: direct_post_count %}
+
+<details class="card categories" id="{{ category_name | slugify }}">
+  <summary class="card-header">
+    <span class="category-name">
+      <i class="far {% if child_count > 0 %}fa-folder-open{% else %}fa-folder{% endif %} fa-fw" aria-hidden="true"></i>
+      <a class="category-title" href="{{ '/categories/' | append: category_name | append: '/' | relative_url }}">{{ category_name }}</a>
+      <span class="text-muted small">
+        {% if child_category_count > 0 %}
+          {{ child_category_count }} {% if child_category_count == 1 %}category{% else %}categories{% endif %},
+        {% endif %}
+        {{ category_posts.size }} {% if category_posts.size == 1 %}post{% else %}posts{% endif %}
+      </span>
+    </span>
+    <span class="category-trigger {% if child_count == 0 %}disabled{% endif %}" aria-hidden="true">
+      <i class="fas fa-fw {% if child_count > 0 %}fa-angle-down{% else %}fa-angle-right{% endif %}"></i>
+    </span>
+  </summary>
+  {% if child_count > 0 %}
+    <ul class="list-group">
+      {{ child_rows }}
+    </ul>
+  {% endif %}
+</details>

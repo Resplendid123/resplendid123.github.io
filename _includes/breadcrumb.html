@@ -1,0 +1,29 @@
+<nav id="breadcrumb" aria-label="Breadcrumb">
+  {% if is_home %}
+    <span>Home</span>
+  {% else %}
+    <span><a href="{{ '/' | relative_url }}">Home</a></span>
+    {% if page.layout == 'post' %}
+      {% assign primary_category = page.categories | first %}
+      {% assign child_category = '' %}
+      {% if primary_category %}
+        <span><a href="{{ '/categories/' | relative_url }}">Categories</a></span>
+        <span><a href="{{ '/categories/' | append: primary_category | append: '/' | relative_url }}">{{ primary_category }}</a></span>
+        {% for tag in page.tags %}
+          {% if tag != primary_category and child_category == '' %}
+            {% assign child_category = tag %}
+          {% endif %}
+        {% endfor %}
+        {% if child_category != '' %}
+          <span><a href="{{ '/categories/' | append: child_category | append: '/' | relative_url }}">{{ child_category }}</a></span>
+        {% endif %}
+      {% endif %}
+      <span>{{ page.title | default: site.title }}</span>
+    {% elsif page.category %}
+      <span><a href="{{ '/categories/' | relative_url }}">Categories</a></span>
+      <span>{{ page.category }}</span>
+    {% else %}
+      <span>{{ page.title | default: site.title }}</span>
+    {% endif %}
+  {% endif %}
+</nav>

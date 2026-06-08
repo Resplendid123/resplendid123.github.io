@@ -1,0 +1,62 @@
+<aside id="sidebar" aria-label="Sidebar">
+  <header class="profile-wrapper">
+    <a href="{{ '/' | relative_url }}" id="avatar" class="rounded-circle" aria-label="Home">
+      <img src="{{ '/assets/avatar.png' | relative_url }}" width="112" height="112" alt="avatar">
+    </a>
+    <h1 class="site-title">
+      <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    </h1>
+    <p class="site-subtitle">{{ site.tagline }}</p>
+  </header>
+
+  <nav aria-label="Main navigation">
+    <ul class="nav">
+      {% for item in site.nav %}
+        {% assign icon_class = 'fa-circle' %}
+        {% case item.icon %}
+          {% when 'house' %}
+            {% assign icon_class = 'fa-home' %}
+          {% when 'grid' %}
+            {% assign icon_class = 'fa-stream' %}
+          {% when 'hash' %}
+            {% assign icon_class = 'fa-tags' %}
+          {% when 'clock' %}
+            {% assign icon_class = 'fa-archive' %}
+          {% when 'circle' %}
+            {% assign icon_class = 'fa-info-circle' %}
+        {% endcase %}
+        <li class="nav-item {% if active_nav == item.id %}active{% endif %}">
+          <a class="nav-link" href="{{ item.url | relative_url }}">
+            <i class="fa-fw fas {{ icon_class }}" aria-hidden="true"></i>
+            <span>{{ item.label | upcase }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <button type="button" class="mode-toggle" aria-label="Switch Mode">
+      <i class="fas fa-adjust" aria-hidden="true"></i>
+    </button>
+    <span class="icon-border" aria-hidden="true"></span>
+    {% if site.author.github and site.author.github != '' %}
+      <a href="{{ site.author.github }}" aria-label="github" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+    {% endif %}
+    {% if site.author.twitter and site.author.twitter != '' %}
+      <a href="{{ site.author.twitter }}" aria-label="twitter" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+      </a>
+    {% endif %}
+    {% if site.author.email and site.author.email != '' %}
+      <a href="mailto:{{ site.author.email }}" aria-label="email">
+        <i class="fas fa-envelope" aria-hidden="true"></i>
+      </a>
+    {% endif %}
+    <a href="{{ '/feed.xml' | relative_url }}" aria-label="rss">
+      <i class="fas fa-rss" aria-hidden="true"></i>
+    </a>
+  </div>
+</aside>

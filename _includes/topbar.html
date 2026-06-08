@@ -1,0 +1,17 @@
+<header id="topbar-wrapper" aria-label="Top Bar">
+  <div id="topbar">
+    {% include breadcrumb.html %}
+    <button type="button" id="sidebar-trigger" class="btn-link" aria-label="Open navigation">
+      <i class="fas fa-bars fa-fw" aria-hidden="true"></i>
+    </button>
+    <div id="topbar-title">{% if is_home %}{{ site.title }}{% else %}{{ page.title | default: site.title }}{% endif %}</div>
+    <button type="button" id="search-trigger" class="btn-link" aria-label="Open search">
+      <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+    </button>
+    <search>
+      <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+      <input id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="Search...">
+    </search>
+    <button type="button" id="search-cancel" class="btn-link">Cancel</button>
+  </div>
+</header>

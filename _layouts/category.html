@@ -1,0 +1,30 @@
+---
+layout: default
+---
+<article class="px-1">
+  <div id="page-category">
+    {% assign post_count = 0 %}
+    {% capture category_posts %}
+      {% for post in site.posts %}
+        {% if post.categories contains page.category or post.tags contains page.category %}
+          {% assign post_count = post_count | plus: 1 %}
+          <li>
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            <span class="dash"></span>
+            <time class="text-muted small" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% endcapture %}
+
+    <h1>
+      <i class="far fa-folder-open fa-fw text-muted" aria-hidden="true"></i>
+      {{ page.category }}
+      <span class="lead text-muted">{{ post_count }}</span>
+    </h1>
+
+    <ul class="content">
+      {{ category_posts }}
+    </ul>
+  </div>
+</article>

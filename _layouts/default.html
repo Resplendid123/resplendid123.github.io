@@ -20,146 +20,30 @@
     <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}">
   </head>
   <body>
-    {% assign active_nav = page.nav | default: 'home' %}
+    {% assign active_nav = page.nav | default: '' %}
+    {% assign is_home = false %}
+    {% if page.url == '/' %}
+      {% assign is_home = true %}
+      {% if active_nav == '' %}
+        {% assign active_nav = 'home' %}
+      {% endif %}
+    {% endif %}
 
-    <aside id="sidebar" aria-label="Sidebar">
-      <header class="profile-wrapper">
-        <a href="{{ '/' | relative_url }}" id="avatar" class="rounded-circle" aria-label="Home">
-          <img src="{{ '/assets/avatar.png' | relative_url }}" width="112" height="112" alt="avatar">
-        </a>
-        <h1 class="site-title">
-          <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
-        </h1>
-        <p class="site-subtitle">{{ site.tagline }}</p>
-      </header>
-
-      <nav aria-label="Main navigation">
-        <ul class="nav">
-          {% for item in site.nav %}
-            {% assign icon_class = 'fa-circle' %}
-            {% case item.icon %}
-              {% when 'house' %}
-                {% assign icon_class = 'fa-home' %}
-              {% when 'grid' %}
-                {% assign icon_class = 'fa-stream' %}
-              {% when 'hash' %}
-                {% assign icon_class = 'fa-tags' %}
-              {% when 'clock' %}
-                {% assign icon_class = 'fa-archive' %}
-              {% when 'circle' %}
-                {% assign icon_class = 'fa-info-circle' %}
-            {% endcase %}
-            <li class="nav-item {% if active_nav == item.id %}active{% endif %}">
-              <a class="nav-link" href="{{ item.url | relative_url }}">
-                <i class="fa-fw fas {{ icon_class }}" aria-hidden="true"></i>
-                <span>{{ item.label | upcase }}</span>
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </nav>
-
-      <div class="sidebar-bottom">
-        <button type="button" class="mode-toggle" aria-label="Switch Mode">
-          <i class="fas fa-adjust" aria-hidden="true"></i>
-        </button>
-        <span class="icon-border" aria-hidden="true"></span>
-        {% if site.author.github and site.author.github != '' %}
-          <a href="{{ site.author.github }}" aria-label="github" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-github" aria-hidden="true"></i>
-          </a>
-        {% endif %}
-        {% if site.author.twitter and site.author.twitter != '' %}
-          <a href="{{ site.author.twitter }}" aria-label="twitter" target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
-          </a>
-        {% endif %}
-        {% if site.author.email and site.author.email != '' %}
-          <a href="mailto:{{ site.author.email }}" aria-label="email">
-            <i class="fas fa-envelope" aria-hidden="true"></i>
-          </a>
-        {% endif %}
-        <a href="{{ '/feed.xml' | relative_url }}" aria-label="rss">
-          <i class="fas fa-rss" aria-hidden="true"></i>
-        </a>
-      </div>
-    </aside>
+    {% include sidebar.html %}
 
     <div id="main-wrapper">
       <div class="container">
-        <header id="topbar-wrapper" aria-label="Top Bar">
-          <div id="topbar">
-            <nav id="breadcrumb" aria-label="Breadcrumb">
-              {% if active_nav == 'home' %}
-                <span>Home</span>
-              {% else %}
-                <span><a href="{{ '/' | relative_url }}">Home</a></span>
-                <span>{{ page.title | default: site.title }}</span>
-              {% endif %}
-            </nav>
-            <button type="button" id="sidebar-trigger" class="btn-link" aria-label="Open navigation">
-              <i class="fas fa-bars fa-fw" aria-hidden="true"></i>
-            </button>
-            <div id="topbar-title">{% if active_nav == 'home' %}{{ site.title }}{% else %}{{ page.title | default: site.title }}{% endif %}</div>
-            <button type="button" id="search-trigger" class="btn-link" aria-label="Open search">
-              <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-            </button>
-            <search>
-              <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-              <input id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="Search...">
-            </search>
-            <button type="button" id="search-cancel" class="btn-link">Cancel</button>
-          </div>
-        </header>
+        {% include topbar.html %}
 
         <div class="content-row" id="main-grid">
           <main aria-label="Main Content">
             {{ content }}
           </main>
 
-          <aside id="panel-wrapper" aria-label="Panel">
-            {% if page.toc %}
-              <div id="toc-wrapper">
-                <h2 class="panel-heading">Contents</h2>
-                <ul>
-                  {% for item in page.toc %}
-                    <li><a class="toc-link" href="#{{ item.id }}">{{ item.label }}</a></li>
-                  {% endfor %}
-                </ul>
-              </div>
-            {% else %}
-              <div class="access">
-                <section id="access-lastmod">
-                  <h2 class="panel-heading">Recently Updated</h2>
-                  <ul class="content-list">
-                    {% for post in site.posts limit:5 %}
-                      <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-                    {% endfor %}
-                  </ul>
-                </section>
-                {% include trending-tags.html %}
-              </div>
-            {% endif %}
-          </aside>
+          {% include panel.html %}
         </div>
 
-        <div class="tail-row">
-          <div id="tail-wrapper">
-            <footer aria-label="Site Info">
-              <p>
-                © <time>2025</time>
-                <a href="{{ site.author.github | default: '/' }}">{{ site.author.name | default: site.title }}</a>.
-                <span>Some rights reserved.</span>
-              </p>
-              <p>
-                Using the
-                <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
-                theme for
-                <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>.
-              </p>
-            </footer>
-          </div>
-        </div>
+        {% include footer.html %}
 
         <div id="search-result-wrapper" aria-live="polite">
           <div class="content search-content">
@@ -180,19 +64,7 @@
 
     <div id="mask"></div>
 
-    <script type="application/json" id="search-data">
-      [
-        {% for post in site.posts %}
-          {
-            "title": {{ post.title | jsonify }},
-            "url": {{ post.url | relative_url | jsonify }},
-            "categories": {{ post.categories | join: ', ' | jsonify }},
-            "tags": {{ post.tags | join: ', ' | jsonify }},
-            "snippet": {{ post.description | default: post.excerpt | strip_html | strip_newlines | jsonify }}
-          }{% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      ]
-    </script>
+    {% include search-data.html %}
     <script src="{{ '/script.js' | relative_url }}"></script>
   </body>
 </html>

@@ -9,18 +9,7 @@ panel: categories
   <div class="content">
     {% assign categories = site.categories | sort %}
     {% for category in categories %}
-      <div class="card categories" id="{{ category[0] | slugify }}">
-        <div class="card-header">
-          <span class="category-name">
-            <i class="far fa-folder fa-fw" aria-hidden="true"></i>
-            <a href="{{ '/categories/' | relative_url }}#{{ category[0] | slugify }}">{{ category[0] }}</a>
-            <span class="text-muted small">{{ category[1].size }} {% if category[1].size == 1 %}post{% else %}posts{% endif %}</span>
-          </span>
-          <span class="category-trigger disabled" aria-hidden="true">
-            <i class="fas fa-fw fa-angle-right"></i>
-          </span>
-        </div>
-      </div>
+      {% include category-card.html category=category %}
     {% endfor %}
   </div>
 </article>
