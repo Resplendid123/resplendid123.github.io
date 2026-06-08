@@ -3,25 +3,30 @@ layout: default
 nav: about
 title: About
 ---
-<article class="about-page">
-  <header class="page-header">
-    <h1>About</h1>
-  </header>
+<article class="px-1">
+  <h1 class="dynamic-title">About</h1>
+  <div class="content about-page">
+    <p>
+      I am Resplendid, a software engineering learner who keeps notes on systems,
+      programming languages, developer tools, and the craft of building reliable software.
+    </p>
 
-  <p>
-    I am Om Jogani, a software engineer who likes systems, programming languages,
-    developer tools, and the craft of building reliable software.
-  </p>
+    <p>
+      This blog is a working notebook for book notes, engineering handbooks, paper
+      notes, and practical explorations from day-to-day software development.
+    </p>
 
-  <p>
-    This blog is a working notebook for book notes, engineering handbooks, paper
-    notes, and practical explorations from day-to-day software development.
-  </p>
-
-  <h2>Links</h2>
-  <ul>
-    <li><a href="{{ site.author.github }}">GitHub</a></li>
-    <li><a href="{{ site.author.twitter }}">Twitter / X</a></li>
-    <li><a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></li>
-  </ul>
+    <h2>Links</h2>
+    <ul>
+      {% if site.author.github and site.author.github != '' %}
+        <li><a href="{{ site.author.github }}">GitHub</a></li>
+      {% endif %}
+      {% if site.author.twitter and site.author.twitter != '' %}
+        <li><a href="{{ site.author.twitter }}">Twitter / X</a></li>
+      {% endif %}
+      {% if site.author.email and site.author.email != '' %}
+        <li><a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></li>
+      {% endif %}
+    </ul>
+  </div>
 </article>

@@ -1,9 +1,9 @@
-<section class="panel-section">
-  <h2>Trending Tags</h2>
+<section>
+  <h2 class="panel-heading">Trending Tags</h2>
   <div class="panel-tags">
     {% assign tags = site.tags | sort %}
     {% for tag in tags limit:10 %}
-      <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}">{{ tag[0] }}</a>
+      <a class="post-tag btn btn-outline-primary" href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}">{{ tag[0] }}</a>
     {% endfor %}
   </div>
 </section>

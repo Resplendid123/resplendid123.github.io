@@ -3,16 +3,40 @@ layout: default
 nav: home
 title: Home
 ---
-<section id="post-list" aria-label="Posts">
+<div id="post-list">
   {% for post in site.posts %}
-    <article class="post-preview">
-      <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      <p>{{ post.description }}</p>
-      <div class="post-meta">
-        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
-        <span>{{ post.categories | join: ', ' }}</span>
-        <span>{{ post.tags | join: ', ' }}</span>
-      </div>
+    <article class="card-wrapper card">
+      <a href="{{ post.url | relative_url }}" class="post-preview">
+        <div class="card-body">
+          <h1 class="card-title">{{ post.title }}</h1>
+          <div class="card-text content">
+            <p>{{ post.description | default: post.excerpt | strip_html | truncate: 190 }}</p>
+          </div>
+          <div class="post-meta">
+            <div>
+              <i class="far fa-calendar fa-fw" aria-hidden="true"></i>
+              <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+              {% if post.categories.size > 0 %}
+                <i class="far fa-folder-open fa-fw" aria-hidden="true"></i>
+                <span class="categories">{{ post.categories | join: ', ' }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </a>
     </article>
   {% endfor %}
-</section>
+</div>
+
+<nav aria-label="Page Navigation">
+  <ul class="pagination">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="previous-page"><i class="fas fa-angle-left" aria-hidden="true"></i></a>
+    </li>
+    <li class="page-item active"><a class="page-link" href="{{ '/' | relative_url }}">1</a></li>
+    <li class="page-index"><span>1</span> <span class="text-muted">/ 1</span></li>
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="next-page"><i class="fas fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+  </ul>
+</nav>

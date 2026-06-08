@@ -3,30 +3,18 @@ layout: default
 nav: tags
 title: Tags
 ---
-<header class="page-header">
-  <h1>Tags</h1>
-</header>
-
-<section class="tag-cloud" aria-label="Tags">
-  {% assign tags = site.tags | sort %}
-  {% for tag in tags %}
-    <a id="{{ tag[0] | slugify }}" href="#{{ tag[0] | slugify }}">
-      {{ tag[0] }}
-      <span>{{ tag[1].size }}</span>
-    </a>
-  {% endfor %}
-</section>
-
-<section class="taxonomy-list" aria-label="Tagged posts">
-  {% for tag in tags %}
-    <section class="taxonomy-group">
-      <h2>{{ tag[0] }}</h2>
-      {% for post in tag[1] %}
-        <a class="taxonomy-post" href="{{ post.url | relative_url }}">
-          <span>{{ post.title }}</span>
-          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
-        </a>
+<article class="px-1">
+  <h1 class="dynamic-title">Tags</h1>
+  <div class="content">
+    <div id="tags">
+      {% assign tags = site.tags | sort %}
+      {% for tag in tags %}
+        <div>
+          <a class="tag" id="{{ tag[0] | slugify }}" href="#{{ tag[0] | slugify }}">
+            {{ tag[0] }}<span class="text-muted">{{ tag[1].size }}</span>
+          </a>
+        </div>
       {% endfor %}
-    </section>
-  {% endfor %}
-</section>
+    </div>
+  </div>
+</article>

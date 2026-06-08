@@ -4,21 +4,23 @@ nav: categories
 title: Categories
 panel: categories
 ---
-<header class="page-header">
-  <h1>Categories</h1>
-</header>
-
-<section class="taxonomy-list" aria-label="Categories">
-  {% assign categories = site.categories | sort %}
-  {% for category in categories %}
-    <section class="taxonomy-group" id="{{ category[0] | slugify }}">
-      <h2>{{ category[0] }}</h2>
-      {% for post in category[1] %}
-        <a class="taxonomy-post" href="{{ post.url | relative_url }}">
-          <span>{{ post.title }}</span>
-          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
-        </a>
-      {% endfor %}
-    </section>
-  {% endfor %}
-</section>
+<article class="px-1">
+  <h1 class="dynamic-title">Categories</h1>
+  <div class="content">
+    {% assign categories = site.categories | sort %}
+    {% for category in categories %}
+      <div class="card categories" id="{{ category[0] | slugify }}">
+        <div class="card-header">
+          <span class="category-name">
+            <i class="far fa-folder fa-fw" aria-hidden="true"></i>
+            <a href="{{ '/categories/' | relative_url }}#{{ category[0] | slugify }}">{{ category[0] }}</a>
+            <span class="text-muted small">{{ category[1].size }} {% if category[1].size == 1 %}post{% else %}posts{% endif %}</span>
+          </span>
+          <span class="category-trigger disabled" aria-hidden="true">
+            <i class="fas fa-fw fa-angle-right"></i>
+          </span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</article>

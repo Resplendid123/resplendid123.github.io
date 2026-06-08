@@ -1,16 +1,16 @@
-title: Om Jogani
+title: Resplendid
 tagline: Crafting the world with Software Engineering
 description: Notes on software engineering, systems, books, and practical programming.
 lang: en
-url: ""
+url: "https://resplendid123.github.io"
 baseurl: ""
 permalink: /posts/:title/
 
 author:
-  name: Om Jogani
-  email: om080jogani@gmail.com
-  github: https://github.com/omjogani
-  twitter: https://twitter.com/omjoganii
+  name: Resplendid
+  email: ""
+  github: https://github.com/Resplendid123
+  twitter: ""
 
 nav:
   - id: home

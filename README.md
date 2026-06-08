@@ -1,4 +1,4 @@
-# Om Jogani style GitHub Pages blog
+# Resplendid GitHub Pages blog
 
 This site is a small Jekyll blog that follows the structure and visual rhythm of
 the Chirpy-style reference site.

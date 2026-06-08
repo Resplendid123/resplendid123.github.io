@@ -4,21 +4,26 @@ nav: archives
 title: Archives
 panel: archives
 ---
-<header class="page-header">
-  <h1>Archives</h1>
-</header>
-
-<section class="archive-list" aria-label="Archives">
-  {% assign current_year = '' %}
-  {% for post in site.posts %}
-    {% assign year = post.date | date: '%Y' %}
-    {% if year != current_year %}
-      <h2 id="{{ year }}">{{ year }}</h2>
-      {% assign current_year = year %}
-    {% endif %}
-    <a class="archive-post" href="{{ post.url | relative_url }}">
-      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d' }}</time>
-      <span>{{ post.title }}</span>
-    </a>
-  {% endfor %}
-</section>
+<article class="px-1">
+  <h1 class="dynamic-title">Archives</h1>
+  <div class="content">
+    <div id="archives">
+      {% assign current_year = '' %}
+      {% for post in site.posts %}
+        {% assign year = post.date | date: '%Y' %}
+        {% if year != current_year %}
+          {% unless forloop.first %}</ul>{% endunless %}
+          <time class="year">{{ year }}</time>
+          <ul class="archive-year-list">
+          {% assign current_year = year %}
+        {% endif %}
+            <li>
+              <span class="date day">{{ post.date | date: '%d' }}</span>
+              <span class="date month text-muted">{{ post.date | date: '%b' }}</span>
+              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            </li>
+        {% if forloop.last %}</ul>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</article>
