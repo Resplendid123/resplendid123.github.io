@@ -1,0 +1,45 @@
+title: Om Jogani
+tagline: Crafting the world with Software Engineering
+description: Notes on software engineering, systems, books, and practical programming.
+lang: en
+url: ""
+baseurl: ""
+permalink: /posts/:title/
+
+author:
+  name: Om Jogani
+  email: om080jogani@gmail.com
+  github: https://github.com/omjogani
+  twitter: https://twitter.com/omjoganii
+
+nav:
+  - id: home
+    label: Home
+    url: /
+    icon: house
+  - id: categories
+    label: Categories
+    url: /categories/
+    icon: grid
+  - id: tags
+    label: Tags
+    url: /tags/
+    icon: hash
+  - id: archives
+    label: Archives
+    url: /archives/
+    icon: clock
+  - id: about
+    label: About
+    url: /about/
+    icon: circle
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - README.md

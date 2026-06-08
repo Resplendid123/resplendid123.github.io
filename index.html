@@ -1,0 +1,18 @@
+---
+layout: default
+nav: home
+title: Home
+---
+<section id="post-list" aria-label="Posts">
+  {% for post in site.posts %}
+    <article class="post-preview">
+      <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <p>{{ post.description }}</p>
+      <div class="post-meta">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+        <span>{{ post.categories | join: ', ' }}</span>
+        <span>{{ post.tags | join: ', ' }}</span>
+      </div>
+    </article>
+  {% endfor %}
+</section>
