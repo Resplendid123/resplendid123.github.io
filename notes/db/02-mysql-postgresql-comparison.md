@@ -12,6 +12,23 @@ description: "数据库：MySQL 与 PostgreSQL 对比"
 date: "2026-06-09 10:02:00 +0800"
 archive: true
 search: true
+toc:
+  - id: mysql-pg-architecture
+    label: "架构与进程模型"
+  - id: mysql-pg-storage-index
+    label: "存储引擎与索引结构"
+  - id: mysql-pg-mvcc
+    label: "MVCC 与垃圾回收"
+  - id: mysql-pg-isolation
+    label: "事务与隔离级别"
+  - id: mysql-pg-logging
+    label: "日志与复制机制"
+  - id: mysql-pg-sql-types
+    label: "SQL 标准与扩展"
+  - id: postgresql-indexes
+    label: "PostgreSQL 索引"
+  - id: postgresql-update-flow
+    label: "PostgreSQL 更新流程"
 previous_note_title: "MySQL 八股"
 previous_note_url: "/notes/db/01-mysql-interview/"
 next_note_title: "Redis 八股"
@@ -19,6 +36,7 @@ next_note_url: "/notes/db/03-redis-interview/"
 ---
 
 ## 1. 架构与进程模型
+{: #mysql-pg-architecture }
 
 **MySQL**：单进程多线程架构 (Single Process, Multiple Threads)。
 
@@ -31,6 +49,7 @@ next_note_url: "/notes/db/03-redis-interview/"
 - **优劣**：进程间隔离性极好，稳定性极高（某个进程崩溃不影响整体）；缺点是创建连接开销大，高并发下内存消耗高，生产环境中通常必须搭配连接池（如 PgBouncer）。
 
 ## 2. 存储引擎与索引结构
+{: #mysql-pg-storage-index }
 
 **MySQL (InnoDB)**：
 
@@ -45,6 +64,7 @@ next_note_url: "/notes/db/03-redis-interview/"
 - **索引类型极其丰富**：B-Tree(默认)、Hash、GIN（倒排索引，处理 JSONB 极佳）、GiST（搜索树，处理地理空间数据）、SP-GiST（空间分区） 和 BRIN（块范围索引）。
 
 ## 3. MVCC (多版本并发控制) 与垃圾回收
+{: #mysql-pg-mvcc }
 
 这是两者底层设计差异最大的地方。
 
@@ -59,6 +79,7 @@ next_note_url: "/notes/db/03-redis-interview/"
 - **优劣**：事务回滚极快（只需标记事务状态即可，无需根据日志恢复数据）；致命缺点是频繁的 UPDATE/DELETE 会产生大量无用的磁盘“死元组”（Dead Tuples），导致表膨胀（Table Bloat）。必须依赖底层的 **VACUUM** 进程定期进行垃圾回收清理。
 
 ## 4. 事务与隔离级别
+{: #mysql-pg-isolation }
 
 **MySQL (InnoDB)**：
 
@@ -83,6 +104,7 @@ next_note_url: "/notes/db/03-redis-interview/"
 - **Serializable**：PG 实现了基于 SSI（可串行化快照隔离）的真正的串行化级别，开销远低于传统基于锁的串行化。通过检测冲突环，回滚事务，乐观重试。
 
 ## 5. 日志与复制机制
+{: #mysql-pg-logging }
 
 **MySQL**：
 
@@ -97,6 +119,7 @@ next_note_url: "/notes/db/03-redis-interview/"
 - 主从数据一致，通过发送，接受，重放进程实现。两种模式：同步确认和异步
 
 ## 6. SQL 标准、数据类型与扩展 (Extensions)
+{: #mysql-pg-sql-types }
 
 **MySQL**：语法较为宽松、灵活，注重实用性，过去对复杂 SQL 的支持较弱，适合绝大多数互联网 Web CRUD 场景。
 
@@ -112,6 +135,7 @@ next_note_url: "/notes/db/03-redis-interview/"
 ---
 
 ## PostgreSQL索引
+{: #postgresql-indexes }
 
 - B-树
     - PostgreSQL记录堆表无序，通过索引表直接定位页号和页内偏移量。范围查询仍然要多次回表，通过覆盖索引来解决。
@@ -131,6 +155,7 @@ next_note_url: "/notes/db/03-redis-interview/"
     - 将物理上有序的数据，比如created time索引可以划分区块记录最小和最大值的区域快速查找
 
 ## Postgre SQL更新数据流程
+{: #postgresql-update-flow }
 
 - 每一行记录有两个隐藏字段
     - xmax代表删除/更新这行数据的事务id

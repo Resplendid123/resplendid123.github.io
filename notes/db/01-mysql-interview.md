@@ -12,11 +12,31 @@ description: "数据库：MySQL 八股"
 date: "2026-06-09 10:01:00 +0800"
 archive: true
 search: true
+toc:
+  - id: mysql-query-flow
+    label: "查询语句执行流程"
+  - id: mysql-update-flow
+    label: "更新语句执行流程"
+  - id: mysql-crash-recovery
+    label: "异常重启流程"
+  - id: mysql-storage
+    label: "数据存储"
+  - id: mysql-indexes
+    label: "索引"
+  - id: mysql-deep-pagination
+    label: "深度分页"
+  - id: mysql-transactions
+    label: "事务"
+  - id: mysql-locks
+    label: "锁"
+  - id: mysql-logs
+    label: "日志"
 next_note_title: "MySQL 与 PostgreSQL 对比"
 next_note_url: "/notes/db/02-mysql-postgresql-comparison/"
 ---
 
 ## Mysql查询语句执行流程
+{: #mysql-query-flow }
 
 - Server层
     - 连接器、查询缓存、解析器、预处理器、优化器、执行器
@@ -38,6 +58,7 @@ next_note_url: "/notes/db/02-mysql-postgresql-comparison/"
         
 
 ## Mysql更新语句执行流程
+{: #mysql-update-flow }
 
 - 执行器调用存储引擎接口，通过索引树找到记录，若该行记录在Buffer pool中直接交给执行器，若不在从磁盘读到buffer pool，返回记录
 - 执行器判断更新前后有无变化，若无直接返回；若有则调用存储引擎接口，参数为新旧记录
@@ -61,6 +82,7 @@ next_note_url: "/notes/db/02-mysql-postgresql-comparison/"
                 - commit：各个事务按顺序调用存储引擎commit
 
 ## Mysql异常重启流程
+{: #mysql-crash-recovery }
 
 - Redo Log
     - 扫描最后一个Checkpoint之后的Redo Log
@@ -74,6 +96,7 @@ next_note_url: "/notes/db/02-mysql-postgresql-comparison/"
     - 将未提交事务的修改回滚到修改前状态
 
 ## Mysql数据存储
+{: #mysql-storage }
 
 - 文件结构
     - db.opt 默认字符集和配置
@@ -90,6 +113,7 @@ next_note_url: "/notes/db/02-mysql-postgresql-comparison/"
         - 记录按照主键顺序组成单向链表，页目录存储每组最后一条记录的地址偏移量（槽slot），通过二分法快速定位槽，再遍历该槽的记录组就可找到记录。
 
 ## Mysql索引
+{: #mysql-indexes }
 
 - 数据结构分类：B+、Hash（innodb无这个，做不了范围查询）、Full Text
 - 物理存储：聚簇（主键）、二级（辅助）
@@ -125,6 +149,7 @@ next_note_url: "/notes/db/02-mysql-postgresql-comparison/"
     - key实际索引、rows扫描行数、file sort排序、temporary临时表聚合
 
 ## Mysql深度分页问题
+{: #mysql-deep-pagination }
 
 - 问题1:由于mysql数据的crud后会导致查询10000条数据之后的10条起始id并不知道是多少，所以查询优化器要么选择使用B+树的索引双向链表顺序扫描，要么选择全表扫描
 - 问题2:顺序扫描也无法计数到起始id才开始取出数据，因为通常这种分页查询都伴随着查询条件和排序，必须把前面的所有数据都取出，处理排序，处理NULL值等查询条件才能返回符合要求的10条数据
@@ -155,6 +180,7 @@ next_note_url: "/notes/db/02-mysql-postgresql-comparison/"
         
 
 ## Mysql事务
+{: #mysql-transactions }
 
 - ACID
     - Atomicity：事务若失败，那么回滚后就像没发生
@@ -221,6 +247,7 @@ next_note_url: "/notes/db/02-mysql-postgresql-comparison/"
     - MVCC不能完全解决幻读，比如先快照读 插入记录 再当前读
 
 ## Mysql锁（悲观锁）
+{: #mysql-locks }
 
 - 全局锁：mysqldump避免全局读锁备份，使用可重复读快照
 - 表级锁
@@ -263,6 +290,7 @@ next_note_url: "/notes/db/02-mysql-postgresql-comparison/"
     - 开启主动死锁检测回滚事务
 
 ## Mysql日志
+{: #mysql-logs }
 
 - UndoLog
     - 插入记录时，记录该记录的主键id

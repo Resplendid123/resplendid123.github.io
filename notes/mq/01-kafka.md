@@ -12,14 +12,47 @@ description: "消息队列：Kafka"
 date: "2026-06-09 10:04:00 +0800"
 archive: true
 search: true
+toc:
+  - id: kafka-overview
+    label: "Kafka 是什么"
+  - id: kafka-models
+    label: "使用模型"
+  - id: kafka-core-abstractions
+    label: "核心抽象"
+  - id: kafka-roles
+    label: "角色与职责"
+  - id: kafka-partition-strategy
+    label: "分区策略"
+  - id: kafka-offset-commit
+    label: "Offset 与提交"
+  - id: kafka-reliability
+    label: "可靠性"
+  - id: kafka-storage
+    label: "存储层"
+  - id: kafka-streams
+    label: "Kafka Streams"
+  - id: kafka-replication
+    label: "复制与同步"
+  - id: kafka-rebalance
+    label: "Rebalance 与心跳"
+  - id: kafka-zero-copy
+    label: "零拷贝"
+  - id: kafka-election
+    label: "选举与一致性"
+  - id: kafka-flows
+    label: "架构与读写流程"
+  - id: kafka-offset-management
+    label: "Offset 管理"
 ---
 
 ## 1. 先建立整体画面：Kafka 是什么？解决什么问题？
+{: #kafka-overview }
 
 - Kafka 是一个分布式消息系统，常见用途包括：解耦、削峰填谷、异步处理、日志/事件流（Event Streaming）。
 - 你可以把它理解为：生产者把消息写进 Topic，消费者从 Topic 里按顺序读消息。
 
 ## 2. 两种常见使用模型
+{: #kafka-models }
 
 ### 2.1 点对点（“任务队列”）
 
@@ -32,6 +65,7 @@ search: true
 ---
 
 ## 3. Kafka 的核心抽象：Topic、Partition、Offset
+{: #kafka-core-abstractions }
 
 ### 3.1 Topic
 
@@ -52,6 +86,7 @@ search: true
 ---
 
 ## 4. 角色与职责：Producer / Consumer / Consumer Group / Broker
+{: #kafka-roles }
 
 ### 4.1 Producer（生产者）
 
@@ -81,6 +116,7 @@ search: true
 ---
 
 ## 5. 分区策略
+{: #kafka-partition-strategy }
 
 ### 5.1 按 key 分区：用来“保证业务顺序”
 
@@ -110,6 +146,7 @@ search: true
 ---
 
 ## 7. Consumer offset、提交方式与重复消费问题
+{: #kafka-offset-commit }
 
 ### 7.1 consumer offset 存储在哪里？
 
@@ -136,6 +173,7 @@ search: true
 ---
 
 ## 8. 可靠性：重试、幂等性与超时参数
+{: #kafka-reliability }
 
 ### 8.1 为什么要幂等？
 
@@ -153,6 +191,7 @@ search: true
 ---
 
 ## 9. 存储层：Segment 与日志压缩（Log Compaction）
+{: #kafka-storage }
 
 ### 9.1 Segment（分段文件）
 
@@ -168,6 +207,7 @@ search: true
 ---
 
 ## 10. Kafka Streams 与本地状态（RocksDB）
+{: #kafka-streams }
 
 - Kafka Streams 是在应用侧做流处理的库。
 - 常见形态：
@@ -178,6 +218,7 @@ search: true
 ---
 
 ## 11. 架构与复制：Leader/Follower 与同步
+{: #kafka-replication }
 
 - 每个分区有一个 Leader 副本负责读写。
 - Follower 从 Leader 同步数据，用于容灾。
@@ -186,6 +227,7 @@ search: true
 ---
 
 ## 12. Rebalance 与心跳
+{: #kafka-rebalance }
 
 - Rebalance：消费者组成员变化（实例上下线、订阅变化等）后，重新分配分区。
 - 心跳/活性：消费者通过心跳与 poll 机制让 coordinator 知道“我还活着”。
@@ -193,6 +235,7 @@ search: true
 ---
 
 ## 13. Kafka 的“零拷贝”与 IO：
+{: #kafka-zero-copy }
 
 下面把你最硬核的 IO 笔记单独整理成一条清晰主线：
 
@@ -227,6 +270,7 @@ search: true
 ---
 
 ## 14. 选举与一致性：Zab → KRaft
+{: #kafka-election }
 
 ### 14.1 旧版：Zab
 
@@ -254,6 +298,7 @@ search: true
 ---
 
 ## 15. 架构流程图：
+{: #kafka-flows }
 
 ![]({{ '/assets/notes/mq/kafka-architecture-flow.png' | relative_url }})
 
@@ -268,6 +313,7 @@ search: true
 ![]({{ '/assets/notes/mq/kafka-push-flow-2.png' | relative_url }})
 
 ## 18.Offset管理
+{: #kafka-offset-management }
 
 ### 18.1 重复消费
 

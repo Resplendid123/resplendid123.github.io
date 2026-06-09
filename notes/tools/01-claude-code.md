@@ -12,9 +12,25 @@ description: "开发工具：Claude Code"
 date: "2026-06-09 10:05:00 +0800"
 archive: true
 search: true
+toc:
+  - id: claude-code-query-engine
+    label: "查询引擎"
+  - id: claude-code-tool-executor
+    label: "工具系统"
+  - id: claude-code-context-manager
+    label: "上下文管理"
+  - id: claude-code-multi-agent
+    label: "多 Agent 编排"
+  - id: claude-code-memory
+    label: "持久化记忆"
+  - id: claude-code-mcp
+    label: "MCP 集成"
+  - id: claude-code-plugins-skills
+    label: "插件与技能"
 ---
 
 ## 查询引擎Query Engine
+{: #claude-code-query-engine }
 
 只在会话开始时创建，多轮对话期间维护轮次状态
 
@@ -297,6 +313,7 @@ search: true
     
 
 ## 工具系统Tool Executor
+{: #claude-code-tool-executor }
 
 每个tool use都必须有个tool result，即使用户中断或错误都必须补一个
 
@@ -370,6 +387,7 @@ search: true
     - 执行失败，取消相关影响的工具
 
 ## 上下文管理Context Manager
+{: #claude-code-context-manager }
 
 - Token 估算
     - (text length)*4/3 用于提前判断是否溢出
@@ -427,6 +445,7 @@ search: true
     - Hook Results（CLAUDE.md）
 
 ## 多Agent 编排
+{: #claude-code-multi-agent }
 
 - Agent Tool
     - 子Agent
@@ -452,6 +471,7 @@ search: true
     - ENTER_WORKTREE_TOOL_NAME、EXIT_WORKTREE_TOOL_NAME
 
 ## 持久化记忆
+{: #claude-code-memory }
 
 - Memory.md
     - 用户记忆(user)
@@ -480,5 +500,7 @@ type: {{user, feedback, project, reference}}
 {% endraw %}
 
 ## MCP集成
+{: #claude-code-mcp }
 
 ## 插件与技能
+{: #claude-code-plugins-skills }

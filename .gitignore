@@ -5,3 +5,4 @@ _site/
 .idea/
 tempFile/
 onenote-md/
+Gemfile.lock

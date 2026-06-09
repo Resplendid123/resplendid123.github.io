@@ -12,11 +12,37 @@ description: "数据库：Redis 八股"
 date: "2026-06-09 10:03:00 +0800"
 archive: true
 search: true
+toc:
+  - id: redis-scenarios
+    label: "应用场景与优缺点"
+  - id: redis-cache-problems
+    label: "缓存问题"
+  - id: redis-hot-big-key
+    label: "热 key 和大 key"
+  - id: redis-single-thread
+    label: "单线程模型"
+  - id: redis-data-types
+    label: "数据类型"
+  - id: redis-bloom-filter
+    label: "Bitmap 与布隆过滤器"
+  - id: redis-hyperloglog
+    label: "HyperLogLog"
+  - id: redis-distributed-lock
+    label: "分布式锁"
+  - id: redis-persistence
+    label: "持久化"
+  - id: redis-eviction
+    label: "内存淘汰与过期"
+  - id: redis-replication
+    label: "主从复制与集群"
+  - id: redis-split-brain
+    label: "脑裂问题"
 previous_note_title: "MySQL 与 PostgreSQL 对比"
 previous_note_url: "/notes/db/02-mysql-postgresql-comparison/"
 ---
 
 ## Redis 的应用场景、优缺点
+{: #redis-scenarios }
 
 ### 常见场景：
 - **缓存**：减轻数据库压力，提高读性能
@@ -61,6 +87,7 @@ previous_note_url: "/notes/db/02-mysql-postgresql-comparison/"
 ---
 
 ## 常见缓存问题有哪些
+{: #redis-cache-problems }
 
 ### 1）缓存穿透
 大量查询不存在数据库的key请求，请求每次都会打到数据库。
@@ -230,6 +257,7 @@ previous_note_url: "/notes/db/02-mysql-postgresql-comparison/"
 ---
 
 ## 热key 和大key问题发现与解决
+{: #redis-hot-big-key }
 
 ### 热key问题
 
@@ -268,6 +296,7 @@ previous_note_url: "/notes/db/02-mysql-postgresql-comparison/"
 ---
 
 ## Redis 为什么设计为单线程模型
+{: #redis-single-thread }
 
 Redis采用单线程处理命令+多线程网络I/O+后台线程混合模型
 
@@ -290,6 +319,7 @@ Redis采用单线程处理命令+多线程网络I/O+后台线程混合模型
 ---
 
 ## Redis 数据类型及使用场景
+{: #redis-data-types }
 
 Redis存储结构为hash表，由c语言实现，每个hash表内存放了Entry指针数组，每个Entry由key-value组成，Key，Value都指向RedisObject，key固定为string，value有以下数据类型。
 
@@ -478,6 +508,7 @@ Geo
 ---
 
 ## Bitmap 如何实现布隆过滤器
+{: #redis-bloom-filter }
 
 ### 实现原理
 
@@ -524,6 +555,7 @@ Redis 原生没有标准 Bloom 类型，但可以：
 ---
 
 ## HyperLogLog 原理
+{: #redis-hyperloglog }
 
 ### HyperLogLog 是做什么的？
 
@@ -581,6 +613,7 @@ Redis 会把数据分到 **16384 个桶** 中：
 ---
 
 ## Redis 分布式锁 / 自旋锁实现
+{: #redis-distributed-lock }
 
 ### Redis 分布式锁怎么实现？
 
@@ -663,6 +696,7 @@ CAS 是硬件级原子操作，常用于实现轻量级锁、自旋锁。
 ---
 
 ## Redis 持久化
+{: #redis-persistence }
 
 ### RDB(Redis Database)
 
@@ -714,6 +748,7 @@ CAS 是硬件级原子操作，常用于实现轻量级锁、自旋锁。
 ---
 
 ## Redis 内存淘汰策略
+{: #redis-eviction }
 
 ### NoEviction
 
@@ -802,6 +837,7 @@ singleflight：**在高并发场景下，将多个相同的请求合并成一个
 ---
 
 ## Redis 主从复制原理
+{: #redis-replication }
 
 ### 什么是主从复制？
 
@@ -921,6 +957,7 @@ Redis Cluster 主要解决：
 ---
 
 ## Redis 脑裂问题
+{: #redis-split-brain }
 
 ### 产生原因：
 

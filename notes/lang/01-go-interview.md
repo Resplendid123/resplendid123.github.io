@@ -12,9 +12,43 @@ description: "编程语言：Go 八股"
 date: "2026-06-09 10:00:00 +0800"
 archive: true
 search: true
+toc:
+  - id: go-access-private
+    label: "私有成员访问"
+  - id: go-init-vars
+    label: "init 与包变量"
+  - id: go-data-types
+    label: "数据类型"
+  - id: go-method-set
+    label: "方法集"
+  - id: go-type-assertion
+    label: "类型断言"
+  - id: go-panic-defer-recover
+    label: "Panic 与 defer/recover"
+  - id: go-escape-analysis
+    label: "内存逃逸"
+  - id: go-map-concurrency
+    label: "map 并发安全"
+  - id: go-map-hash
+    label: "Map hash 底层原理"
+  - id: go-reflect
+    label: "reflect"
+  - id: go-context
+    label: "context"
+  - id: go-slice-array
+    label: "Slice 和数组"
+  - id: go-channel
+    label: "channel"
+  - id: go-gmp
+    label: "GMP 模型"
+  - id: go-gc
+    label: "GC"
+  - id: go-sync
+    label: "同步原语"
 ---
 
 ## Golang 怎么访问私有成员
+{: #go-access-private }
 
 1.包内函数直接访问
 
@@ -23,10 +57,12 @@ search: true
 3.通过反射访问
 
 ## Golang init()和包级别变量
+{: #go-init-vars }
 
 init()显示调用在main()之前执行，包级别变量只能用var声明，不能使用短声明赋值:=。因为包变量在程序启动时就已经初始化，而函数内部变量是动态的，可以使用。
 
 ## Golang 数据类型
+{: #go-data-types }
 
 基本类型都是深拷贝，引用类型都是浅拷贝。copy函数是浅拷贝
 
@@ -41,6 +77,7 @@ new(type):为一种类型分配内存，但不赋值，只返回指向类型0值
 make:专为slice,map,channel返回的是初始完的值
 
 ## Golang 方法集
+{: #go-method-set }
 
 类型T，只包括接受者类型为T的方法，但是Go编辑器隐式获取值的地址，来调用*T方法
 
@@ -55,6 +92,7 @@ make:专为slice,map,channel返回的是初始完的值
 指针类型方法可以实现接口的两种方法
 
 ## Golang 类型断言
+{: #go-type-assertion }
 
 ```jsx
 接口类型存储的是动态类型和动态值，编译器无法访问其字段，当不确定该类型时，可以使用断言来检查
@@ -114,6 +152,7 @@ fmt.Println(*p)
 - 向已关闭channel写
 
 ## defer 匿名函数recover 与panic
+{: #go-panic-defer-recover }
 
 defer在协程的_defer链表中，不在栈帧当中，LIFO，头插法
 
@@ -172,6 +211,7 @@ func f2() {
 - defer若是函数传参数，或者链式函数，参数都会固定预先计算直至最后一个函数
 
 ## Golang 内存逃逸
+{: #go-escape-analysis }
 
 <aside>
 🚀
@@ -282,6 +322,7 @@ go build -gcflags="-m"
 ```
 
 ## Golang map为什么不设计为线程安全，如何实现
+{: #go-map-concurrency }
 
 ### 为什么map不可寻址？
 
@@ -373,6 +414,7 @@ type ShardedMap struct {
         - 通过强制将 Store Buffer中的修改同步到L1缓存和强制处理失效队列中的数据，确保其他核心及时读到有效的新数据。
 
 ## Golang Map hash底层原理
+{: #go-map-hash }
 
 - 拉链法+溢出桶。
     - 每个map内部有底层数组指针，每个桶可以存8个键值对还有溢出桶指针，连续内存存放。
@@ -421,6 +463,7 @@ type bmap struct {
     - 每个桶最多8个元素，攻击数据分布到不同桶和溢出桶
 
 ## Golang reflect
+{: #go-reflect }
 
 - 作用：动态查询操作对象的类型和值
 - 应用
@@ -444,6 +487,7 @@ runtime.memstats内存分配、GC信息
 runtime.numCPU
 
 ## Golang context
+{: #go-context }
 
 - 作用：在多个go routine间传递上下文，截止时间，信号，特定请求值，更好管理生命周期和资源
 - 数据结构
@@ -517,6 +561,7 @@ runtime.numCPU
 - 若只有一个case，接受的是一个未关闭的channel会阻塞死锁；接受的是一个已经关闭的channel会读0值
 
 ## Golang Slice和数组区别与联系
+{: #go-slice-array }
 
 ### 为什么要有切片？
 
@@ -551,6 +596,7 @@ append操作相当于在数组索引位置插入，后续元素需要移动
 因此要对外部切片做改动，有两种方法，一是传递切片指针，而是返回新切片后赋值覆盖原切片
 
 ## Golang channel
+{: #go-channel }
 
 - 底层数据结构
     - buffer指针
@@ -599,6 +645,7 @@ append操作相当于在数组索引位置插入，后续元素需要移动
     - G执行函数时，发现该标志，主动让出，触发调度，P会将其挂起，调度其他G
 
 ## Golang GMP 模型
+{: #go-gmp }
 
 - go scheduler初始化
     - 创建M0线程，程序主线程启动其他routine
@@ -630,6 +677,7 @@ append操作相当于在数组索引位置插入，后续元素需要移动
     - 抢占长时间的routine
 
 ## Golang GC
+{: #go-gc }
 
 ### 为什么不能是两色？
 
@@ -713,6 +761,7 @@ const (
     - 当前P本地队列为空
 
 ## Golang sync
+{: #go-sync }
 
 - sync.once通过两次检查done==0，第一次是快速判断，第二次加锁检查函数是否执行过了
 
