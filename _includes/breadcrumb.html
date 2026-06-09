@@ -3,7 +3,23 @@
     <span>Home</span>
   {% else %}
     <span><a href="{{ '/' | relative_url }}">Home</a></span>
-    {% if page.layout == 'post' %}
+    {% if page.nav == 'notes' %}
+      {% if page.url == '/notes/' %}
+        <span>Notes</span>
+      {% else %}
+        <span><a href="{{ '/notes/' | relative_url }}">Notes</a></span>
+        {% if page.course %}
+          {% if page.course_url and page.url != page.course_url %}
+            <span><a href="{{ page.course_url | relative_url }}">{{ page.course }}</a></span>
+            <span>{{ page.title | default: site.title }}</span>
+          {% else %}
+            <span>{{ page.course }}</span>
+          {% endif %}
+        {% else %}
+          <span>{{ page.title | default: site.title }}</span>
+        {% endif %}
+      {% endif %}
+    {% elsif page.layout == 'post' %}
       {% assign primary_category = page.categories | first %}
       {% assign child_category = '' %}
       {% if primary_category %}

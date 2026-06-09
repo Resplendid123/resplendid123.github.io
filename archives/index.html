@@ -7,7 +7,7 @@ panel: archives
 <article class="px-1">
   <h1 class="dynamic-title">Archives</h1>
   <div class="content">
-    <div id="archives">
+    <div id="archives" data-archives>
       {% assign current_year = '' %}
       {% for post in site.posts %}
         {% assign year = post.date | date: '%Y' %}

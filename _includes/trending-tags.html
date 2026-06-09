@@ -1,6 +1,6 @@
 <section>
   <h2 class="panel-heading">Trending Tags</h2>
-  <div class="panel-tags">
+  <div class="panel-tags" data-trending-tags>
     {% assign tags = site.tags | sort %}
     {% for tag in tags limit:10 %}
       <a class="post-tag btn btn-outline-primary" href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}">{{ tag[0] }}</a>

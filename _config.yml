@@ -17,6 +17,10 @@ nav:
     label: Home
     url: /
     icon: house
+  - id: notes
+    label: Notes
+    url: /notes/
+    icon: book
   - id: categories
     label: Categories
     url: /categories/
@@ -43,3 +47,6 @@ defaults:
 
 exclude:
   - README.md
+  - AGENTS.md
+  - tempFile/
+  - onenote-md/

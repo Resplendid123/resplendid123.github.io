@@ -1,0 +1,42 @@
+---
+layout: default
+---
+<article class="px-1 post note">
+  <h1 class="dynamic-title">{{ page.title }}</h1>
+
+  <div class="post-meta post-heading-meta">
+    {% if page.course %}
+      <span>
+        <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+        <a href="{{ page.course_url | relative_url }}">{{ page.course }}</a>
+      </span>
+    {% endif %}
+    {% if page.chapter %}
+      <span>
+        <i class="fas fa-layer-group fa-fw" aria-hidden="true"></i>
+        {{ page.chapter }}
+      </span>
+    {% endif %}
+  </div>
+
+  <div class="content post-content">
+    {{ content }}
+  </div>
+</article>
+
+<nav class="post-navigation note-navigation" aria-label="Note navigation">
+  {% if page.previous_note_url %}
+    <a class="btn btn-outline-primary" href="{{ page.previous_note_url | relative_url }}" aria-label="Previous">
+      <p>{{ page.previous_note_title }}</p>
+    </a>
+  {% else %}
+    <span class="btn btn-outline-primary disabled" aria-label="Previous"></span>
+  {% endif %}
+  {% if page.next_note_url %}
+    <a class="btn btn-outline-primary" href="{{ page.next_note_url | relative_url }}" aria-label="Next">
+      <p>{{ page.next_note_title }}</p>
+    </a>
+  {% else %}
+    <span class="btn btn-outline-primary disabled" aria-label="Next"></span>
+  {% endif %}
+</nav>

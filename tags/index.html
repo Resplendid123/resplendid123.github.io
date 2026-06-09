@@ -6,7 +6,7 @@ title: Tags
 <article class="px-1">
   <h1 class="dynamic-title">Tags</h1>
   <div class="content">
-    <div id="tags">
+    <div id="tags" data-tags-page>
       {% assign tags = site.tags | sort %}
       {% for tag in tags %}
         <div>
@@ -16,5 +16,9 @@ title: Tags
         </div>
       {% endfor %}
     </div>
+    <section id="tag-results" aria-live="polite">
+      <h2 id="tag-results-title"></h2>
+      <div id="tag-results-list"></div>
+    </section>
   </div>
 </article>

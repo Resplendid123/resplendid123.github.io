@@ -1,13 +1,36 @@
 <script type="application/json" id="search-data">
   [
+    {% assign emitted = false %}
     {% for post in site.posts %}
+      {% if emitted %},{% endif %}
       {
         "title": {{ post.title | jsonify }},
         "url": {{ post.url | relative_url | jsonify }},
         "categories": {{ post.categories | join: ', ' | jsonify }},
         "tags": {{ post.tags | join: ', ' | jsonify }},
+        "date": {{ post.date | date_to_xmlschema | jsonify }},
+        "kind": "post",
         "snippet": {{ post.description | default: post.excerpt | strip_html | strip_newlines | jsonify }}
-      }{% unless forloop.last %},{% endunless %}
+      }
+      {% assign emitted = true %}
+    {% endfor %}
+    {% assign searchable_pages = site.pages | where: 'search', true %}
+    {% for page in searchable_pages %}
+      {% if emitted %},{% endif %}
+      {
+        "title": {{ page.title | jsonify }},
+        "url": {{ page.url | relative_url | jsonify }},
+        "categories": {{ page.course | default: '' | jsonify }},
+        "tags": {{ page.tags | join: ', ' | jsonify }},
+        {% assign page_date = '' %}
+        {% if page.date %}
+          {% assign page_date = page.date | date_to_xmlschema %}
+        {% endif %}
+        "date": {{ page_date | jsonify }},
+        "kind": {{ page.layout | default: 'page' | jsonify }},
+        "snippet": {{ page.description | default: page.excerpt | strip_html | strip_newlines | jsonify }}
+      }
+      {% assign emitted = true %}
     {% endfor %}
   ]
 </script>

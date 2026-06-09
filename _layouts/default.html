@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="{{ site.lang | default: 'en' }}">
   <head>
+    {% assign asset_version = site.time | date: '%s' %}
     <meta charset="utf-8">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e">
@@ -17,7 +18,7 @@
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v={{ asset_version }}">
   </head>
   <body>
     {% assign active_nav = page.nav | default: '' %}
@@ -65,6 +66,6 @@
     <div id="mask"></div>
 
     {% include search-data.html %}
-    <script src="{{ '/script.js' | relative_url }}"></script>
+    <script src="{{ '/script.js' | relative_url }}?v={{ asset_version }}"></script>
   </body>
 </html>

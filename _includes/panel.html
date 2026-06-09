@@ -12,7 +12,7 @@
     <div class="access">
       <section id="access-lastmod">
         <h2 class="panel-heading">Recently Updated</h2>
-        <ul class="content-list">
+        <ul class="content-list" data-recent-items>
           {% for post in site.posts limit:5 %}
             <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
           {% endfor %}
